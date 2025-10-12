@@ -1,5 +1,5 @@
 ---
-description: Execute the implementation planning workflow using the plan template to generate design artifacts.
+description: プランテンプレートを用いて設計成果物を生成する実装計画ワークフローを実行します。
 scripts:
   sh: scripts/bash/setup-plan.sh --json
   ps: scripts/powershell/setup-plan.ps1 -Json
@@ -8,79 +8,78 @@ agent_scripts:
   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
-## User Input
+## ユーザー入力
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+入力がある場合は必ず考慮した上で処理を進めてください。
 
-## Outline
+## アウトライン
 
-1. **Setup**: Run `{SCRIPT}` from repo root and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **セットアップ**: リポジトリルートで `{SCRIPT}` を実行し、JSON から FEATURE_SPEC、IMPL_PLAN、SPECS_DIR、BRANCH を取得します。"I'm Groot" などシングルクォートを含む引数は `'I'\''m Groot'` または `"I'm Groot"` とエスケープしてください。
 
-2. **Load context**: Read FEATURE_SPEC and `/memory/constitution.md`. Load IMPL_PLAN template (already copied).
+2. **コンテキストの読み込み**: FEATURE_SPEC と `/memory/constitution.md` を読み込み、コピー済みの IMPL_PLAN テンプレートを取得します。
 
-3. **Execute plan workflow**: Follow the structure in IMPL_PLAN template to:
-   - Fill Technical Context (mark unknowns as "NEEDS CLARIFICATION")
-   - Fill Constitution Check section from constitution
-   - Evaluate gates (ERROR if violations unjustified)
-   - Phase 0: Generate research.md (resolve all NEEDS CLARIFICATION)
-   - Phase 1: Generate data-model.md, contracts/, quickstart.md
-   - Phase 1: Update agent context by running the agent script
-   - Re-evaluate Constitution Check post-design
+3. **プランワークフローの実行**: IMPL_PLAN テンプレートの構成に従って以下を実施します:
+   - Technical Context を埋める (不明点は "NEEDS CLARIFICATION" と記載)
+   - 憲章に基づき Constitution Check セクションを埋める
+   - ゲートを評価 (違反が正当化されない場合はエラー)
+   - フェーズ 0: research.md を生成し、すべての NEEDS CLARIFICATION を解消
+   - フェーズ 1: data-model.md、contracts/、quickstart.md を生成
+   - フェーズ 1: エージェントスクリプトを実行してコンテキストを更新
+   - フェーズ 1 完了後に再度 Constitution Check を評価
 
-4. **Stop and report**: Command ends after Phase 2 planning. Report branch, IMPL_PLAN path, and generated artifacts.
+4. **停止して報告**: フェーズ 2 (tasks) 手前で終了し、ブランチ名・IMPL_PLAN パス・生成成果物を報告します。
 
-## Phases
+## フェーズ
 
-### Phase 0: Outline & Research
+### フェーズ 0: アウトラインとリサーチ
 
-1. **Extract unknowns from Technical Context** above:
-   - For each NEEDS CLARIFICATION → research task
-   - For each dependency → best practices task
-   - For each integration → patterns task
+1. Technical Context で抽出した未知項目:
+   - 各 NEEDS CLARIFICATION をリサーチタスクへ変換
+   - 各依存関係をベストプラクティスタスクへ変換
+   - 各統合ポイントをパターンタスクへ変換
 
-2. **Generate and dispatch research agents**:
+2. リサーチエージェントを生成し実行:
    ```
-   For each unknown in Technical Context:
+   各未知事項について:
      Task: "Research {unknown} for {feature context}"
-   For each technology choice:
+   各技術選定について:
      Task: "Find best practices for {tech} in {domain}"
    ```
 
-3. **Consolidate findings** in `research.md` using format:
-   - Decision: [what was chosen]
-   - Rationale: [why chosen]
-   - Alternatives considered: [what else evaluated]
+3. `research.md` に結果を統合:
+   - Decision: [選択肢]
+   - Rationale: [理由]
+   - Alternatives considered: [検討した代替案]
 
-**Output**: research.md with all NEEDS CLARIFICATION resolved
+**出力**: NEEDS CLARIFICATION が解消された `research.md`
 
-### Phase 1: Design & Contracts
+### フェーズ 1: 設計とコントラクト
 
-**Prerequisites:** `research.md` complete
+**前提条件**: `research.md` の完了
 
-1. **Extract entities from feature spec** → `data-model.md`:
-   - Entity name, fields, relationships
-   - Validation rules from requirements
-   - State transitions if applicable
+1. feature spec からエンティティを抽出し `data-model.md` を生成:
+   - エンティティ名、フィールド、リレーション
+   - 要求されるバリデーションルール
+   - 状態遷移があれば含める
 
-2. **Generate API contracts** from functional requirements:
-   - For each user action → endpoint
-   - Use standard REST/GraphQL patterns
-   - Output OpenAPI/GraphQL schema to `/contracts/`
+2. 機能要件から API コントラクトを生成:
+   - 各ユーザーアクション → エンドポイント
+   - REST/GraphQL の標準パターンを利用
+   - `/contracts/` に OpenAPI/GraphQL スキーマを出力
 
-3. **Agent context update**:
-   - Run `{AGENT_SCRIPT}`
-   - These scripts detect which AI agent is in use
-   - Update the appropriate agent-specific context file
-   - Add only new technology from current plan
-   - Preserve manual additions between markers
+3. **エージェントコンテキストの更新**:
+   - `{AGENT_SCRIPT}` を実行
+   - 使用中の AI エージェントを判定
+   - 現在のプランで新たに使用する技術をエージェント用ファイルに反映
+   - 手動追加領域はマーカー内で保持
 
-**Output**: data-model.md, /contracts/*, quickstart.md, agent-specific file
+**出力**: `data-model.md`、`/contracts/*`、`quickstart.md`、エージェント専用ファイル
 
-## Key rules
+## 主要ルール
 
-- Use absolute paths
-- ERROR on gate failures or unresolved clarifications
+- すべてのパスは絶対パスで扱う
+- ゲート違反や未解決の明確化が残っている場合はエラーとして停止

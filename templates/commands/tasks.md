@@ -1,115 +1,73 @@
 ---
-description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts.
+description: 利用可能な設計成果物に基づいて、実行可能で依存関係順に並べた tasks.md を生成します。
 scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
 
-## User Input
+## ユーザー入力
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+入力がある場合は必ず考慮した上で処理を進めてください。
 
-## Outline
+## アウトライン
 
-1. **Setup**: Run `{SCRIPT}` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **セットアップ**: リポジトリルートで `{SCRIPT}` を実行し、FEATURE_DIR と AVAILABLE_DOCS を取得します。パスはすべて絶対。`"I'm Groot"` のような引数は `'I'\''m Groot'` または `"I'm Groot"` とエスケープしてください。
 
-2. **Load design documents**: Read from FEATURE_DIR:
-   - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
-   - **Optional**: data-model.md (entities), contracts/ (API endpoints), research.md (decisions), quickstart.md (test scenarios)
-   - Note: Not all projects have all documents. Generate tasks based on what's available.
+2. **設計ドキュメントの読み込み**: FEATURE_DIR から以下を参照:
+   - **必須**: plan.md (技術スタック、ライブラリ、構造)、spec.md (優先度付きユーザーストーリー)
+   - **任意**: data-model.md (エンティティ)、contracts/ (API エンドポイント)、research.md (判断と根拠)、quickstart.md (テストシナリオ)
+   - すべてのプロジェクトで全成果物が揃っているとは限らない点に留意
 
-3. **Execute task generation workflow** (follow the template structure):
-   - Load plan.md and extract tech stack, libraries, project structure
-   - **Load spec.md and extract user stories with their priorities (P1, P2, P3, etc.)**
-   - If data-model.md exists: Extract entities → map to user stories
-   - If contracts/ exists: Each file → map endpoints to user stories
-   - If research.md exists: Extract decisions → generate setup tasks
-   - **Generate tasks ORGANIZED BY USER STORY**:
-     - Setup tasks (shared infrastructure needed by all stories)
-     - **Foundational tasks (prerequisites that must complete before ANY user story can start)**
-     - For each user story (in priority order P1, P2, P3...):
-       - Group all tasks needed to complete JUST that story
-       - Include models, services, endpoints, UI components specific to that story
-       - Mark which tasks are [P] parallelizable
-       - If tests requested: Include tests specific to that story
-     - Polish/Integration tasks (cross-cutting concerns)
-   - **Tests are OPTIONAL**: Only generate test tasks if explicitly requested in the feature spec or user asks for TDD approach
-   - Apply task rules:
-     - Different files = mark [P] for parallel
-     - Same file = sequential (no [P])
-     - If tests requested: Tests before implementation (TDD order)
-   - Number tasks sequentially (T001, T002...)
-   - Generate dependency graph showing user story completion order
-   - Create parallel execution examples per user story
-   - Validate task completeness (each user story has all needed tasks, independently testable)
+3. **タスク生成ワークフロー** (テンプレート構造に従う):
+   - plan.md から技術スタック・ライブラリ・プロジェクト構造を抽出
+   - spec.md から優先度付きユーザーストーリーを抽出
+   - data-model.md があればエンティティをストーリーへマッピング
+   - contracts/ があれば各エンドポイントを対応するストーリーへ紐づけ
+   - research.md があれば決定事項をセットアップタスクへ転換
+   - **ユーザーストーリー単位**でタスクを生成:
+     - 共通インフラは Setup
+     - ブロッキング要素は Foundational
+     - 各ユーザーストーリー (優先度順) ごとにタスクをグルーピング
+     - テストは明示的に要求された場合のみ生成
+     - ファイルが異なれば [P] を付与して並列可能に
+     - 同一ファイルを扱う場合は [P] なし
+   - タスク ID は T001 から順番に採番
+   - ユーザーストーリーごとの独立した実装/検証が可能であることを保証
 
-4. **Generate tasks.md**: Use `.specify/templates/tasks-template.md` as structure, fill with:
-   - Correct feature name from plan.md
-   - Phase 1: Setup tasks (project initialization)
-   - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
-   - Phase 3+: One phase per user story (in priority order from spec.md)
-     - Each phase includes: story goal, independent test criteria, tests (if requested), implementation tasks
-     - Clear [Story] labels (US1, US2, US3...) for each task
-     - [P] markers for parallelizable tasks within each story
-     - Checkpoint markers after each story phase
-   - Final Phase: Polish & cross-cutting concerns
-   - Numbered tasks (T001, T002...) in execution order
-   - Clear file paths for each task
-   - Dependencies section showing story completion order
-   - Parallel execution examples per story
-   - Implementation strategy section (MVP first, incremental delivery)
+4. **tasks.md の生成**: `.specify/templates/tasks-template.md` の構成を用い、以下を含める:
+   - plan.md から取得したフィーチャー名
+   - フェーズ 1: Setup (プロジェクト初期化)
+   - フェーズ 2: Foundational (ユーザーストーリー前提の基盤)
+   - フェーズ 3 以降: 優先度順にユーザーストーリーごとのフェーズ
+     - 各フェーズにストーリーの目標、独立テスト条件、テストタスク (要求された場合)、実装タスクを記載
+     - タスク説明に [Story] ラベル (US1 等) を付与
+     - 並列可能タスクには [P]
+     - 各ストーリー終了時にチェックポイントを明示
+   - 最終フェーズ: Polish & Cross-Cutting Concerns
+   - 依存関係セクションでストーリー完了順序を明記
+   - 各ストーリーの並列実行例を提示
+   - 実装戦略 (MVP 優先、段階的提供、並列チーム戦略)
 
-5. **Report**: Output path to generated tasks.md and summary:
-   - Total task count
-   - Task count per user story
-   - Parallel opportunities identified
-   - Independent test criteria for each story
-   - Suggested MVP scope (typically just User Story 1)
+5. **レポート**: 生成した tasks.md のパス、タスク総数、ユーザーストーリーごとのタスク数、並列実行機会、各ストーリーの独立テスト条件、推奨 MVP 範囲 (通常は US1) を出力。
 
-Context for task generation: {ARGS}
+タスク生成の背景: {ARGS}
 
-The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
+## ルール要約
 
-## Task Generation Rules
+- **テストは任意**: ユーザーまたは仕様書で明示されない限りテストタスクは追加しない
+- **ユーザーストーリー単位で編成**: 独立した実装・テストが可能であることが最重要
+- **契約**: 各エンドポイントを該当ストーリーに紐づけ、テスト要求があれば契約テストを追加
+- **データモデル**: エンティティは対応ストーリーに配置 (複数ストーリーで共有する場合は最初の必要箇所または Setup)
+- **セットアップ & 基盤**: 共通インフラは Setup、ストーリー前提として必要なものは Foundational に配置
+- **順序**:
+  - フェーズ 1: Setup
+  - フェーズ 2: Foundational
+  - フェーズ 3 以降: ユーザーストーリー (優先度順)
+  - 最終フェーズ: Polish & Cross-Cutting
+  - ストーリー内は「テスト (任意) → モデル → サービス → エンドポイント → 統合」の順
 
-**IMPORTANT**: Tests are optional. Only generate test tasks if the user explicitly requested testing or TDD approach in the feature specification.
-
-**CRITICAL**: Tasks MUST be organized by user story to enable independent implementation and testing.
-
-1. **From User Stories (spec.md)** - PRIMARY ORGANIZATION:
-   - Each user story (P1, P2, P3...) gets its own phase
-   - Map all related components to their story:
-     - Models needed for that story
-     - Services needed for that story
-     - Endpoints/UI needed for that story
-     - If tests requested: Tests specific to that story
-   - Mark story dependencies (most stories should be independent)
-   
-2. **From Contracts**:
-   - Map each contract/endpoint → to the user story it serves
-   - If tests requested: Each contract → contract test task [P] before implementation in that story's phase
-   
-3. **From Data Model**:
-   - Map each entity → to the user story(ies) that need it
-   - If entity serves multiple stories: Put in earliest story or Setup phase
-   - Relationships → service layer tasks in appropriate story phase
-   
-4. **From Setup/Infrastructure**:
-   - Shared infrastructure → Setup phase (Phase 1)
-   - Foundational/blocking tasks → Foundational phase (Phase 2)
-     - Examples: Database schema setup, authentication framework, core libraries, base configurations
-     - These MUST complete before any user story can be implemented
-   - Story-specific setup → within that story's phase
-
-5. **Ordering**:
-   - Phase 1: Setup (project initialization)
-   - Phase 2: Foundational (blocking prerequisites - must complete before user stories)
-   - Phase 3+: User Stories in priority order (P1, P2, P3...)
-     - Within each story: Tests (if requested) → Models → Services → Endpoints → Integration
-   - Final Phase: Polish & Cross-Cutting Concerns
-   - Each user story phase should be a complete, independently testable increment
-
+最終的な tasks.md は、そのまま実行できる具体的なタスクレベルで構成されている必要があります。

@@ -1,115 +1,115 @@
-# Feature Specification: [FEATURE NAME]
+# フィーチャー仕様書: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
-**Input**: User description: "$ARGUMENTS"
+**フィーチャーブランチ**: `[###-feature-name]`  
+**作成日**: [DATE]  
+**ステータス**: Draft  
+**入力**: ユーザー記述: "$ARGUMENTS"
 
-## User Scenarios & Testing *(mandatory)*
+## ユーザーシナリオとテスト *(必須)*
 
 <!--
-  IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
-  Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
-  you should still have a viable MVP (Minimum Viable Product) that delivers value.
-  
-  Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
-  Think of each story as a standalone slice of functionality that can be:
-  - Developed independently
-  - Tested independently
-  - Deployed independently
-  - Demonstrated to users independently
+  重要: ユーザーストーリーは重要度順に優先度を付けて並べてください。
+  各ユーザーストーリー/ジャーニーは独立してテスト可能である必要があります。
+  つまり 1 つだけ実装しても、価値ある MVP (Minimum Viable Product) を成立させるべきです。
+
+  各ストーリーには優先度 (P1, P2, P3 など) を設定してください。P1 が最重要です。
+  各ストーリーは以下を満たす独立した機能スライスとして扱います:
+  - 独立して開発できる
+  - 独立してテストできる
+  - 独立してデプロイできる
+  - 独立してユーザーへデモできる
 -->
 
-### User Story 1 - [Brief Title] (Priority: P1)
+### ユーザーストーリー 1 - [簡潔なタイトル] (優先度: P1)
 
-[Describe this user journey in plain language]
+[このユーザージャーニーを平易な言葉で記述]
 
-**Why this priority**: [Explain the value and why it has this priority level]
+**この優先度の理由**: [価値と優先度の根拠を説明]
 
-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
+**独立テスト**: [このストーリー単体でのテスト方法を記述 (例: 「[特定の操作] で完結に検証でき、[具体的な価値] を提供する」)]
 
-**Acceptance Scenarios**:
+**受け入れシナリオ**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **前提** [初期状態]、**操作** [アクション]、**結果** [期待される結果]
+2. **前提** [初期状態]、**操作** [アクション]、**結果** [期待される結果]
 
 ---
 
-### User Story 2 - [Brief Title] (Priority: P2)
+### ユーザーストーリー 2 - [簡潔なタイトル] (優先度: P2)
 
-[Describe this user journey in plain language]
+[このユーザージャーニーを平易な言葉で記述]
 
-**Why this priority**: [Explain the value and why it has this priority level]
+**この優先度の理由**: [価値と優先度の根拠を説明]
 
-**Independent Test**: [Describe how this can be tested independently]
+**独立テスト**: [このストーリー単体でのテスト方法を記述]
 
-**Acceptance Scenarios**:
+**受け入れシナリオ**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-
----
-
-### User Story 3 - [Brief Title] (Priority: P3)
-
-[Describe this user journey in plain language]
-
-**Why this priority**: [Explain the value and why it has this priority level]
-
-**Independent Test**: [Describe how this can be tested independently]
-
-**Acceptance Scenarios**:
-
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **前提** [初期状態]、**操作** [アクション]、**結果** [期待される結果]
 
 ---
 
-[Add more user stories as needed, each with an assigned priority]
+### ユーザーストーリー 3 - [簡潔なタイトル] (優先度: P3)
 
-### Edge Cases
+[このユーザージャーニーを平易な言葉で記述]
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right edge cases.
--->
+**この優先度の理由**: [価値と優先度の根拠を説明]
 
-- What happens when [boundary condition]?
-- How does system handle [error scenario]?
+**独立テスト**: [このストーリー単体でのテスト方法を記述]
 
-## Requirements *(mandatory)*
+**受け入れシナリオ**:
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right functional requirements.
--->
+1. **前提** [初期状態]、**操作** [アクション]、**結果** [期待される結果]
 
-### Functional Requirements
+---
 
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+[必要に応じて、優先度付きのユーザーストーリーを追加]
 
-*Example of marking unclear requirements:*
-
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
-
-### Key Entities *(include if feature involves data)*
-
-- **[Entity 1]**: [What it represents, key attributes without implementation]
-- **[Entity 2]**: [What it represents, relationships to other entities]
-
-## Success Criteria *(mandatory)*
+### エッジケース
 
 <!--
-  ACTION REQUIRED: Define measurable success criteria.
-  These must be technology-agnostic and measurable.
+  要対応: このセクションはプレースホルダーです。
+  該当するエッジケースに置き換えてください。
 -->
 
-### Measurable Outcomes
+- [境界条件] の場合、どうなるか?
+- [エラーシナリオ] をシステムはどう扱うか?
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+## 要件 *(必須)*
+
+<!--
+  要対応: このセクションはプレースホルダーです。
+  適切な機能要件で埋めてください。
+-->
+
+### 機能要件
+
+- **FR-001**: システムは [具体的な機能。例: 「ユーザーがアカウントを作成できるようにする」] 必須
+- **FR-002**: システムは [具体的な機能。例: 「メールアドレスを検証する」] 必須  
+- **FR-003**: ユーザーは [主要な操作。例: 「パスワードをリセットできる」] 必須
+- **FR-004**: システムは [データ要件。例: 「ユーザー設定を永続化する」] 必須
+- **FR-005**: システムは [挙動。例: 「すべてのセキュリティイベントを記録する」] 必須
+
+*不明確な要件をマークする例:*
+
+- **FR-006**: システムは [NEEDS CLARIFICATION: 認証方法が未指定 (メール/パスワード、SSO、OAuth など?)] を用いてユーザーを認証しなければならない
+- **FR-007**: システムはユーザーデータを [NEEDS CLARIFICATION: 保持期間が未指定] 保存しなければならない
+
+### 主要エンティティ *(データを扱うフィーチャーの場合に記載)*
+
+- **[Entity 1]**: [何を表すのか、実装詳細を除いた主な属性]
+- **[Entity 2]**: [何を表すのか、他エンティティとの関係]
+
+## 成功指標 *(必須)*
+
+<!--
+  要対応: 測定可能な成功指標を定義してください。
+  技術に依存しない指標である必要があります。
+-->
+
+### 測定可能な成果
+
+- **SC-001**: [測定可能な指標。例: 「ユーザーがアカウント作成を 2 分以内に完了できる」]
+- **SC-002**: [測定可能な指標。例: 「システムが 1000 人の同時ユーザーを劣化なく処理する」]
+- **SC-003**: [ユーザー満足度指標。例: 「ユーザーの 90% が主要タスクを初回で完遂する」]
+- **SC-004**: [ビジネス指標。例: 「[X] に関連するサポートチケットを 50% 削減する」]

@@ -1,19 +1,19 @@
-# Support 
+# サポート
 
-## How to file issues and get help
+## 問い合わせ方法
 
-This project uses GitHub issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
+本プロジェクトでは GitHub Issues を用いてバグと機能要望を管理しています。重複を避けるため、まず既存の Issue を検索してから新しい Issue を作成してください。新しいバグや機能要望がある場合は、新規 Issue として登録してください。
 
-For help or questions about using this project, please:
+このプロジェクトの利用に関する質問やサポートが必要な場合は、以下をご利用ください。
 
-- Open a [GitHub issue](https://github.com/github/spec-kit/issues/new) for bug reports, feature requests, or questions about the Spec-Driven Development methodology
-- Check the [comprehensive guide](./spec-driven.md) for detailed documentation on the Spec-Driven Development process
-- Review the [README](./README.md) for getting started instructions and troubleshooting tips
+- バグ報告・機能要望・Spec-Driven Development 手法に関する質問は、[GitHub Issue](https://github.com/github/spec-kit/issues/new) を作成してください
+- Spec-Driven Development プロセスの詳細なドキュメントは [詳細ガイド](./spec-driven.md) を参照してください
+- セットアップ手順やトラブルシューティングは [README](./README.md) をご確認ください
 
-## Project Status
+## プロジェクトの状況
 
-**Spec Kit** is under active development and maintained by GitHub staff **AND THE COMMUNITY**. We will do our best to respond to support, feature requests, and community questions in a timely manner.
+**Spec Kit** は GitHub スタッフ **とコミュニティ** によって積極的に開発・メンテナンスされています。サポート依頼、機能要望、コミュニティからの質問には可能な限り迅速に対応するよう努めています。
 
-## GitHub Support Policy
+## GitHub のサポートポリシー
 
-Support for this project is limited to the resources listed above.
+本プロジェクトへのサポートは、上記のリソースに限定されます。

@@ -1,4 +1,4 @@
-# フィーチャー仕様書: [FEATURE NAME]
+# 機能仕様書: [FEATURE NAME]
 
 **フィーチャーブランチ**: `[###-feature-name]`  
 **作成日**: [DATE]  
